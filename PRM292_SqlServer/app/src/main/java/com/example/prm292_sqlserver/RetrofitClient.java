@@ -5,7 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://YOUR_PC_IP:PORT/";
+    // Updated to use the new port from your launchSettings.json
+    private static final String BASE_URL = "http://192.168.1.15:61993/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
@@ -17,4 +18,3 @@ public class RetrofitClient {
         return retrofit;
     }
 }
-
