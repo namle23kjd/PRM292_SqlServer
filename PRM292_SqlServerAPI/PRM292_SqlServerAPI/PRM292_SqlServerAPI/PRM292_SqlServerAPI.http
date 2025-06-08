@@ -1,0 +1,6 @@
+@PRM292_SqlServerAPI_HostAddress = http://localhost:5249
+
+GET {{PRM292_SqlServerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
