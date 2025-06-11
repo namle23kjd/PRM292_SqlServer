@@ -1,1 +1,1 @@
-Đây là tài liệu hướng dẫn của tụi mình về kết nối DB với Sql Server[Uploading SQL_Docx.docx…]()
+📄 [Xem tài liệu hướng dẫn tại đây](https://github.com/namle23kjd/PRM292_SqlServer/blob/main/SQL_Docx.docx)
