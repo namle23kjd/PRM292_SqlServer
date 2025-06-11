@@ -44,9 +44,13 @@ app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 
-Console.WriteLine("?? Server running on:");
-Console.WriteLine("?? Network: http://192.168.1.15:61993");
-Console.WriteLine("?? Local: http://localhost:61993");
-Console.WriteLine("?? Swagger: http://192.168.1.15:61993/swagger");
+Console.WriteLine("============================================");
+Console.WriteLine("📋 How to get your IPv4 Address:");
+Console.WriteLine("   1. Open Terminal/Command Prompt (cmd)");
+Console.WriteLine("   2. Type: ipconfig");
+Console.WriteLine("   3. Find 'IPv4 Address' line (usually 192.168.x.x)");
+Console.WriteLine("   4. Replace [YOUR_IPV4_ADDRESS] above with that IP");
+Console.WriteLine("   5. Also update Android BASE_URL with same IP");
+Console.WriteLine("============================================");
 
 app.Run();
