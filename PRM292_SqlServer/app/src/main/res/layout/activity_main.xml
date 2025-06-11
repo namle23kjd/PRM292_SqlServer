@@ -1,32 +1,409 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutMain"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="#f5f5f5">
 
-    <TextView
-        android:id="@+id/txtTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Danh sách người dùng"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:paddingBottom="12dp" />
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        <!-- Title -->
         <TextView
-            android:id="@+id/txtResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đang tải dữ liệu..."
-            android:textSize="16sp"
-            android:textColor="#000000" />
-    </ScrollView>
-</LinearLayout>
+            android:text="👥 User Management System"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#333"
+            android:layout_marginBottom="24dp"
+            android:padding="16dp" />
+
+        <!-- Search Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔍 Search Users"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#607D8B"
+                    android:layout_marginBottom="16dp" />
+
+                <EditText
+                    android:id="@+id/etSearchName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Enter name to search"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="🔍 Search Users"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#607D8B" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Create User Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="➕ Create New User"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#2196F3"
+                    android:layout_marginBottom="16dp" />
+
+                <EditText
+                    android:id="@+id/etCreateName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Full Name"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etCreateEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Email Address"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etCreatePhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etCreateAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Address"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etCreateRoleId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Role ID (1=Admin, 2=User, etc.)"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnAddUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="➕ Create User"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#2196F3" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Update User Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✏️ Update User"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF9800"
+                    android:layout_marginBottom="16dp" />
+
+                <EditText
+                    android:id="@+id/etUpdateUserId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="User ID to update"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etUpdateName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="New Full Name"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etUpdateEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="New Email Address"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etUpdatePhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="New Phone Number"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etUpdateAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="New Address"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etUpdateRoleId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="New Role ID"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnEditUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="✏️ Update User"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#FF9800" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Delete User Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🗑️ Delete User"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#F44336"
+                    android:layout_marginBottom="16dp" />
+
+                <EditText
+                    android:id="@+id/etDeleteUserId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="User ID to delete"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:background="#f0f0f0"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnDeleteUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="🗑️ Delete User"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="#F44336" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Quick Actions Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="⚡ Quick Actions"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50"
+                    android:layout_marginBottom="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnGetUsers"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:text="📋 Get All"
+                        android:textSize="16sp"
+                        android:textColor="#ffffff"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="#4CAF50" />
+
+                    <Button
+                        android:id="@+id/btnGetRoles"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:text="🏷️ Get Roles"
+                        android:textSize="16sp"
+                        android:textColor="#ffffff"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="#9C27B0" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Results Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#ffffff">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📊 Results"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF5722"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tvResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="👋 Welcome to User Management System!\n\n🚀 Click 'Get All' to load users from your database.\n\n💡 Fill in the forms above to create, update, search, or delete users."
+                    android:textSize="14sp"
+                    android:padding="16dp"
+                    android:background="#f8f9fa"
+                    android:minHeight="300dp"
+                    android:gravity="top"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="4dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Footer -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔗 Connected to: 192.168.1.15:61993"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#666"
+            android:layout_marginTop="16dp"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+</ScrollView>

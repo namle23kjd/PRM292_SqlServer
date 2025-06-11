@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
+        <!-- Your server IP -->
+        <domain includeSubdomains="true">192.168.1.15</domain>
+        <!-- Localhost variants -->
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <!-- Android emulator special IP -->
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <!-- Common local network ranges -->
+        <domain includeSubdomains="true">192.168.0.1</domain>
+        <domain includeSubdomains="true">192.168.1.1</domain>
     </domain-config>
 </network-security-config>
