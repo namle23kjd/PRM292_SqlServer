@@ -21,11 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText etSearchName;
 
     // Create fields
-    private EditText etCreateName, etCreateEmail, etCreatePhone, etCreateAddress, etCreateRoleId;
+    private EditText etCreateName, etCreateEmail, etCreatePhone, etCreateAddress,etCreateDob, etCreateRoleId;
 
     // Update fields
-    private EditText etUpdateUserId, etUpdateName, etUpdateEmail, etUpdatePhone, etUpdateAddress, etUpdateRoleId;
-
+    private EditText etUpdateUserId, etUpdateName, etUpdateEmail, etUpdatePhone, etUpdateAddress, etUpdateDob,etUpdateRoleId;
+    private Button btnLoadUserForEdit;
     // Delete fields
     private EditText etDeleteUserId;
 
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         etCreateEmail = findViewById(R.id.etCreateEmail);
         etCreatePhone = findViewById(R.id.etCreatePhone);
         etCreateAddress = findViewById(R.id.etCreateAddress);
+        etCreateDob = findViewById(R.id.etCreateDob);
         etCreateRoleId = findViewById(R.id.etCreateRoleId);
 
         // Update fields
@@ -66,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
         etUpdateEmail = findViewById(R.id.etUpdateEmail);
         etUpdatePhone = findViewById(R.id.etUpdatePhone);
         etUpdateAddress = findViewById(R.id.etUpdateAddress);
+        etUpdateDob = findViewById(R.id.etUpdateDob);
         etUpdateRoleId = findViewById(R.id.etUpdateRoleId);
-
+        btnLoadUserForEdit = findViewById(R.id.btnLoadUserForEdit);
         // Delete fields
         etDeleteUserId = findViewById(R.id.etDeleteUserId);
     }
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         btnGetUsers.setOnClickListener(v -> getAllUsers());
         btnAddUser.setOnClickListener(v -> createUser());
         btnEditUser.setOnClickListener(v -> updateUser());
+        btnLoadUserForEdit.setOnClickListener(v -> loadUserForEdit());
+
         btnDeleteUser.setOnClickListener(v -> deleteUser());
         btnGetRoles.setOnClickListener(v -> getAllRoles());
         btnSearch.setOnClickListener(v -> searchUsers());
@@ -130,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         String email = etCreateEmail.getText().toString().trim();
         String phone = etCreatePhone.getText().toString().trim();
         String address = etCreateAddress.getText().toString().trim();
+        String dob = etCreateDob.getText().toString().trim();
         String roleIdStr = etCreateRoleId.getText().toString().trim();
 
         if (name.isEmpty()) {
@@ -167,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         newUser.setEmail(email);
         newUser.setPhoneNumber(phone.isEmpty() ? null : phone);
         newUser.setAddress(address.isEmpty() ? null : address);
-        newUser.setDateOfBirth("1990-01-01T00:00:00"); // Default date
+        newUser.setDateOfBirth(dob.isEmpty() ? "1990-01-01T00:00:00" : dob);
         newUser.setRoleId(roleId);
 
         Call<ApiResponse<User>> call = apiService.createUser(newUser);
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         String email = etUpdateEmail.getText().toString().trim();
         String phone = etUpdatePhone.getText().toString().trim();
         String address = etUpdateAddress.getText().toString().trim();
+        String dob = etUpdateDob.getText().toString().trim();
         String roleIdStr = etUpdateRoleId.getText().toString().trim();
 
         if (userIdStr.isEmpty()) {
@@ -249,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         updateUser.setEmail(email);
         updateUser.setPhoneNumber(phone.isEmpty() ? null : phone);
         updateUser.setAddress(address.isEmpty() ? null : address);
-        updateUser.setDateOfBirth("1990-01-01T00:00:00"); // Default date
+        updateUser.setDateOfBirth(dob.isEmpty() ? "1990-01-01T00:00:00" : dob);
         updateUser.setRoleId(roleId);
 
         Call<ApiResponse<User>> call = apiService.updateUser(userId, updateUser);
@@ -281,7 +287,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void loadUserForEdit() {
+        String userIdStr = etUpdateUserId.getText().toString().trim();
 
+        if (userIdStr.isEmpty()) {
+            showToast("❌ Please enter user ID");
+            etUpdateUserId.requestFocus();
+            return;
+        }
+
+        int userId;
+        try {
+            userId = Integer.parseInt(userIdStr);
+        } catch (NumberFormatException e) {
+            showToast("❌ User ID must be a number");
+            return;
+        }
+
+        showLoading("🔍 Loading user data...");
+
+        Call<ApiResponse<User>> call = apiService.getUserById(userId);
+        call.enqueue(new Callback<ApiResponse<User>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    User user = response.body().getData();
+
+                    etUpdateName.setText(user.getName());
+                    etUpdateEmail.setText(user.getEmail());
+                    etUpdatePhone.setText(user.getPhoneNumber());
+                    etUpdateAddress.setText(user.getAddress());
+                    etUpdateDob.setText(user.getDateOfBirth());
+                    etUpdateRoleId.setText(String.valueOf(user.getRoleId()));
+
+                    showToast("✅ User loaded. Now you can edit.");
+                } else {
+                    tvResults.setText("❌ Failed to load user. Check ID or try again.");
+                    showToast("⚠️ User not found or API error.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<User>> call, Throwable t) {
+                tvResults.setText("🔗 Connection failed: " + t.getMessage());
+                showToast("Connection failed.");
+            }
+        });
+    }
     private void deleteUser() {
         String userIdStr = etDeleteUserId.getText().toString().trim();
 
@@ -300,6 +352,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // ✅ Show confirmation dialog
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion")
+                .setMessage("Are you sure you want to delete user with ID " + userId + "?")
+                .setPositiveButton("Yes", (dialog, which) -> performDeleteUser(userId))
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void performDeleteUser(int userId) {
         showLoading("Deleting user...");
 
         Call<ApiResponse<Object>> call = apiService.deleteUser(userId);
@@ -310,11 +372,9 @@ public class MainActivity extends AppCompatActivity {
                     ApiResponse<Object> apiResponse = response.body();
 
                     if (apiResponse.isSuccess()) {
-                        tvResults.setText("🗑️ USER DELETED\n" +
-                                "⏰ " + java.time.LocalTime.now() + "\n" +
-                                "═══════════════════════\n\n" +
-                                "✅ " + apiResponse.getMessage() + "\n" +
-                                "User ID: " + userId);
+                        tvResults.setText("🗑️ USER DELETED\n⏰ " + java.time.LocalTime.now() +
+                                "\n═══════════════════════\n\n✅ " + apiResponse.getMessage() +
+                                "\nUser ID: " + userId);
                         showToast("✅ " + apiResponse.getMessage());
                         etDeleteUserId.setText("");
                     } else {
@@ -479,6 +539,7 @@ public class MainActivity extends AppCompatActivity {
         etCreateEmail.setText("");
         etCreatePhone.setText("");
         etCreateAddress.setText("");
+        etCreateDob.setText("");
         etCreateRoleId.setText("");
     }
 
@@ -488,6 +549,7 @@ public class MainActivity extends AppCompatActivity {
         etUpdateEmail.setText("");
         etUpdatePhone.setText("");
         etUpdateAddress.setText("");
+        etUpdateDob.setText("");
         etUpdateRoleId.setText("");
     }
 
