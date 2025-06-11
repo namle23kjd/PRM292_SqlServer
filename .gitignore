@@ -93,6 +93,7 @@ nunit-*.xml
 /.vs/DrugUsePrevention/DesignTimeBuild/.dtbcache.v2
 *.v2
 *.json
+!appsettings.json
 *.suo
 /.vs/ProjectEvaluation/druguseprevention.projects.v9.bin
 /.vs/DrugUsePrevention/v17/.suo

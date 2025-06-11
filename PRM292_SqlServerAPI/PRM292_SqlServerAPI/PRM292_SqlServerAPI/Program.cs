@@ -33,8 +33,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // Enable CORS
 app.UseCors();
+
 
 // Comment out HTTPS redirection for development
 // app.UseHttpsRedirection();
